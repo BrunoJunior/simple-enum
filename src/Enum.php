@@ -40,31 +40,12 @@ abstract class Enum
      * Constructor
      * @param int $key
      * @param string $label
-     * @param array $args
      */
-    protected function __construct(int $key, string $label = '', array $args = [])
+    protected function __construct(int $key, string $label = '')
     {
         $this->key = $key;
         $this->label = $label;
         $this->overridinglabel = $label;
-        if (is_array($args) && !empty($args)) {
-            foreach ($args as $argKey => $value) {
-                if (property_exists($this, $argKey)) {
-                    $this->$argKey = $this->getArgValue($argKey, $value);
-                }
-            }
-        }
-    }
-
-    /**
-     * Allow arg value overriding
-     * @param string $key
-     * @param mixed $value
-     * @return mixed
-     */
-    protected function getArgValue(string $key, $value)
-    {
-        return $value;
     }
 
     /**
@@ -74,9 +55,9 @@ abstract class Enum
      * @param array $args
      * @return static
      */
-    protected static function addEnum(int $key, string $label = '', $args = []):self
+    protected static function addEnum(int $key, string $label = ''):self
     {
-        $enum = new static($key, $label, $args);
+        $enum = new static($key, $label);
         return static::addEnumInstance($enum);
     }
 
@@ -123,7 +104,7 @@ abstract class Enum
      * Getting the enum list of the called class
      * @return array|Enum[] key => Enum
      */
-    public static function getList():array
+    final public static function getList():array
     {
         static::listInit();
         $liste = [];
@@ -138,7 +119,7 @@ abstract class Enum
      * Useful for HTML select options for example
      * @return array id => label
      */
-    public static function getLabels():array
+    final public static function getLabels():array
     {
         $listeLabels = [];
         $liste = static::getList();
@@ -154,7 +135,7 @@ abstract class Enum
      * @return string
      * @throws UnknownEumException
      */
-    public static function getLabelById(int $key):string
+    final public static function getLabelById(int $key):string
     {
         $enum = static::getInstance($key);
         return $enum->getLabel();
@@ -166,7 +147,7 @@ abstract class Enum
      * @return static
      * @throws UnknownEumException
      */
-    public static function getInstance(int $key):self
+    final public static function getInstance(int $key):self
     {
         $liste = static::getList();
         if (!array_key_exists($key, $liste)) {
@@ -179,7 +160,7 @@ abstract class Enum
      * Getting the label of the enum instance
      * @return string
      */
-    public function getLabel():string
+    final public function getLabel():string
     {
         return $this->overridinglabel;
     }
@@ -189,7 +170,7 @@ abstract class Enum
      * @param string $label
      * @return $this
      */
-    public function setLabel(string $label):self
+    final public function setLabel(string $label):self
     {
         $this->overridinglabel = $label;
         return $this;
@@ -199,7 +180,7 @@ abstract class Enum
      * Use the default enum instance label
      * @return $this
      */
-    public function resetLabel():self
+    final public function resetLabel():self
     {
         $this->overridinglabel = $this->label;
         return $this;
@@ -209,7 +190,7 @@ abstract class Enum
      * The enum key
      * @return int
      */
-    public function getKey():int
+    final public function getKey():int
     {
         return $this->key;
     }
@@ -220,7 +201,7 @@ abstract class Enum
      * @param integer $key
      * @return boolean
      */
-    public function is(int $key):bool
+    final public function is(int $key):bool
     {
         return $this->getKey() === $key;
     }
@@ -230,7 +211,7 @@ abstract class Enum
      * @param Enum $enum
      * @return boolean
      */
-    public function equals(Enum $enum):bool
+    final public function equals(Enum $enum):bool
     {
         if (get_class($this) !== get_class($enum)) {
             return FALSE;
@@ -242,7 +223,7 @@ abstract class Enum
      * Is the label overridden
      * @return boolean
      */
-    public function isOverriddenLabel():bool
+    final public function isOverriddenLabel():bool
     {
         return $this->overridinglabel !== $this->label;
     }
@@ -252,7 +233,7 @@ abstract class Enum
      * Useful to compare two enums with ==
      * @return string
      */
-    public function __toString():string
+    final public function __toString():string
     {
         return static::class . '\\' . $this->key;
     }
