@@ -1,0 +1,20 @@
+{
+  "name": "brunojunior/simple-enum",
+  "description": "Abstract class to simulate enum with label in PHP",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.1.0",
+    "danielstjules/stringy": "^3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "SimpleEnum\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Bruno Desprez",
+      "email": "pro@bdesprez.com"
+    }
+  ]
+}
