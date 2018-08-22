@@ -15,12 +15,12 @@ class UnknownEumException extends \Exception
 {
     /**
      * UnknownEumException constructor.
-     * @param string $classe
-     * @param int $valeur
+     * @param string $classname
+     * @param int $value
      * @param Throwable|null $previous
      */
-    public function __construct(string $classe, int $valeur, Throwable $previous = null)
+    public function __construct(string $classname, int $value, Throwable $previous = null)
     {
-        parent::__construct("Valeur \"$valeur\" inconnue pour l'énumération $classe !", 1, $previous);
+        parent::__construct("Unknown value \"$value\" for enum $classname !", 1, $previous);
     }
 }
